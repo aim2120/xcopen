@@ -3,9 +3,11 @@
 DIR="."
 DEFAULT=false
 BETA=false
+XCODE_PATH="Xcode"
+XCODE_PATH_PASSED=false
 
 # Usage
-USAGE="Usage: $0 [-d|--default] [-b|--beta] [PATH]"
+USAGE="Usage: $0 [[-p|--path XCODE_PATH] | [-b|--beta] [-d|--default]]  [PATH]"
 
 # Parse arguments
 while [ $# -gt 0 ]
@@ -24,6 +26,17 @@ do
     BETA=true
     shift
     ;;
+    -p|--path)
+    case "$2" in
+      -h|--help|-d|--default|-b|--beta|"")
+      echo "$USAGE"
+      exit
+      ;;
+    esac
+    XCODE_PATH=$2
+    XCODE_PATH_PASSED=true
+    shift 2
+    ;;
     *)
     if [ $# -eq 1 ]; then
       DIR=$key
@@ -40,12 +53,20 @@ shopt -s nullglob
 FOUND=0
 if [ $BETA = false ]; then
   if [ $DEFAULT = false ]; then
-    APP="-a Xcode"
+    APP="-a $XCODE_PATH"
   else
-    APP=""
+    if [ $XCODE_PATH_PASSED = false ]; then
+      APP=""
+    else
+      echo "-d|--default and -p|--path flags both passed, ignoring the -d|--default flag"
+    fi
   fi
 else
-  APP="-a Xcode-beta"
+  if [ $XCODE_PATH_PASSED = false ]; then
+    APP="-a $XCODE_PATH-beta"
+  else
+    echo "-b|--beta and -p|--path flags both passed, ignoring the -b|--beta flag"
+  fi
 fi
 
 # Try to open the first xcworkspace file found

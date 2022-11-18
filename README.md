@@ -45,7 +45,7 @@ You can also use the flag `--beta` or simply `-b` to open the project using Xcod
 xcopen --beta /path/to/MyAwesomeApp/
 ```
 
-Finally, specifying `--default` or `-d` will open the project with the default application:
+Specifying `--default` or `-d` will open the project with the default application:
 
 ```bash
 xcopen --beta /path/to/MyAwesomeApp/
@@ -53,6 +53,13 @@ xcopen --beta /path/to/MyAwesomeApp/
 
 This can be useful if your Xcode installations contain a version number (e.g. when using [xcode-install](https://github.com/KrauseFx/xcode-install)), in which case the first two options will not work.
 
+Finally, the `--path` or `-p` flag can be used to specify the path to a specific Xcode app if necessary (the `-d` and `-b` flags are ignored if also passed)
+
+```bash
+xcopen --path /Applications/Xcode-14.1.0.app/
+# or
+xcopen --path /Applications/Xcode-14.1.0.app/ /path/to/MyAwesomeApp/
+```
 
 ## License
 
